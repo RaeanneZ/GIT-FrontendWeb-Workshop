@@ -22,8 +22,6 @@ const showSlider = (type) => {
     ".carousel .prodShowcaseList .product"
   );
 
-  console.log(products);
-
   if (type === "next") {
     prodList.appendChild(products[0]);
     carousel.classList.add("next"); // This is to signal animation
