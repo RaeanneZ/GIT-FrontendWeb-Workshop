@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-  --prod1-transform: translate(-100%, -5%) scale(1.5);
+  --prod1-transform: translate(-50%, -10%) scale(2);
   --prod1-filter: blur(30px);
   --prod1-zIndex: 11;
   --prod1-opacity: 0;
@@ -11,15 +11,23 @@
   --prod2-zIndex: 10;
   --prod2-opacity: 1;
 
-  --prod3-transform: translate(50%, 10%) scale(0.8);
+  --prod3-transform: translate(55%, 10%) scale(0.8);
   --prod3-filter: blur(10px);
   --prod3-z-index: 9;
   --prod3-opacity: 1;
+
+  --prod4-transform: translate(90%, 20%) scale(0.3);
+  --prod4-filter: blur(30px);
+  --prod4-z-index: 8;
+  --prod4-opacity: 0;
 }
 
 body {
-  font-family: Poppins;
+  font-family: 'Poppins';
   margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* Navbar */
@@ -53,6 +61,21 @@ header nav a {
   height: 100vh;
   overflow: hidden;
   position: relative;
+}
+
+.carousel::before {
+  width: 500px;
+  height: 300px;
+  content: "";
+  background-image: linear-gradient(45deg, #dc422a, #1200ff);
+  position: absolute;
+  z-index: -1;
+  border-radius: 40% 30% 90% 30%;
+  filter: blur(150px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-10%, -30%);
+  transition: 1s;
 }
 
 .carousel .prodShowcaseList {
@@ -92,7 +115,8 @@ header nav a {
 }
 
 .carousel .prodShowcaseList .product .intro .title {
-  font-size: 1.5em;
+  font-size: 1.2em;
+  font-weight: 200;
   line-height: 0.8em;
 }
 .carousel .prodShowcaseList .product .intro .name {
@@ -101,7 +125,11 @@ header nav a {
 }
 .carousel .prodShowcaseList .product .intro .desc {
   font-size: small;
+  font-weight: 300;
+}
+.carousel .prodShowcaseList .product .intro .cost {
   font-weight: 500;
+  margin-top: 1.3em;
 }
 .carousel .prodShowcaseList .product .intro .learnMore {
   background-color: transparent;
@@ -111,6 +139,7 @@ header nav a {
   font-weight: bold;
   margin-top: 1.2em;
   padding: 5px 0;
+  cursor: pointer;
 }
 
 /* Carousel Animations */
@@ -153,10 +182,16 @@ header nav a {
 }
 /* end Animation delay for content */
 
+/* Product 2 is the active one */
 .carousel .prodShowcaseList .product:nth-child(2) .intro {
   opacity: 1;
   pointer-events: auto;
   transition: opacity 0.5s;
+}
+/* Rest of the item will be hidden from view */
+.carousel .prodShowcaseList .product:nth-child(n + 4) {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Setting the visuals for the products */
@@ -180,9 +215,11 @@ header nav a {
   opacity: var(--prod3-opacity);
   pointer-events: none;
 }
-
-.carousel .prodShowcaseList .product:nth-child(n + 4) {
-  opacity: 0;
+.carousel .prodShowcaseList .product:nth-child(4) {
+  transform: var(--prod4-transform);
+  filter: var(--prod4-filter);
+  z-index: var(--prod4-z-index);
+  opacity: var(--prod4-opacity);
   pointer-events: none;
 }
 
@@ -197,6 +234,8 @@ header nav a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 20;
+  cursor: pointer;
 }
 
 .carouselControl #next,
@@ -214,7 +253,7 @@ header nav a {
 }
 
 /* Next Arrow Click Effect */
-/* For Product 2 */
+/* To animate to Product 2 */
 .carousel.next .prodShowcaseList .product:nth-child(1) {
   animation: posItem2Anim 0.5s ease-in-out 1 forwards;
 }
@@ -228,7 +267,7 @@ header nav a {
   }
 }
 
-/* For Product 3 */
+/* To animate to Product 3 */
 .carousel.next .prodShowcaseList .product:nth-child(2) {
   animation: posItem3Anim 0.7s ease-in-out 1 forwards;
 }
@@ -242,9 +281,23 @@ header nav a {
   }
 }
 
-/* To animate to Product 1 */
+/* To animate to Product 4 */
 .carousel.next .prodShowcaseList .product:nth-child(3) {
-  animation: posItem1Anim 0.7s ease-in-out 1 forwards;
+  animation: posItem4Anim 0.7s ease-in-out 1 forwards;
+}
+@keyframes posItem4Anim {
+  from {
+    /* Taken from initial css of product2 */
+    transform: var(--prod4-transform);
+    filter: var(--prod4-filter);
+    z-index: var(--prod4-zIndex);
+    opacity: var(--prod4-opacity);
+  }
+}
+
+/* To animate to Product 1 */
+.carousel.next .prodShowcaseList .product:nth-child(4) {
+  animation: posItem1Anim 0.9s ease-in-out 1 forwards;
 }
 @keyframes posItem1Anim {
   from {
@@ -256,12 +309,101 @@ header nav a {
   }
 }
 
-.footer{
-  margin-top: 100px;
-  background-color: #333;
-  color: #fff;
-  padding: 20px 0;
+/* Prev Arrow Click Effect */
+/* To animate to Product 3 */
+.carousel.prev .prodShowcaseList .product:nth-child(2) {
+  animation: posItem3Anim 0.5s ease-in-out 1 forwards;
 }
-.footer h3{
+
+/* To animate to Product 1 */
+.carousel.prev .prodShowcaseList .product:nth-child(2) {
+  animation: posItem1Anim 0.5s ease-in-out 1 forwards;
+}
+/* To animate to Product 2 */
+.carousel.prev .prodShowcaseList .product:nth-child(3) {
+  animation: posItem2Anim 0.5s ease-in-out 1 forwards;
+}
+
+/**** Shop *****/
+.shopContent{
+  margin-top: 30px;
+  max-width:90%;
+  display: flex;
+  flex-direction: row;
+  padding:20px;
+}
+.shopContent img{
+  width: 40%;
+  height:auto;
+  margin-left:50px;
+  border-radius: 10px;
+}
+
+.shopContent .intro{
+  height:400px;
+  margin-left: 30px;
+  margin-top: 100px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+}
+
+.shopContent .title{
+  line-height: 0.8em;
+  font-size: 3em;
+  font-weight: 500;
+}
+
+.intro .title {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem; 
+  font-weight: 700; 
+  margin-bottom: 10px;
+  color: #333; 
+}
+
+.intro .desc {
+  font-family: 'Poppins', sans-serif;
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #F8BBD0; 
+  color: white; 
+  padding: 20px 0;
   text-align: center;
+  font-size: 14px;
+}
+
+.footer .footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer p {
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+.footer .social-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.footer .social-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.footer .social-links a:hover {
+  color: #333; 
 }
