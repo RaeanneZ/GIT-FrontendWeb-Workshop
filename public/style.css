@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 :root {
-  --prod1-transform: translate(-100%, -5%) scale(1.5);
+  --prod1-transform: translate(-50%, -10%) scale(2);
   --prod1-filter: blur(30px);
   --prod1-zIndex: 11;
   --prod1-opacity: 0;
@@ -55,6 +55,21 @@ header nav a {
   position: relative;
 }
 
+.carousel::before {
+  width: 500px;
+  height: 300px;
+  content: "";
+  background-image: linear-gradient(45deg, #dc422a, blue);
+  position: absolute;
+  z-index: -1;
+  border-radius: 40% 30% 90% 30%;
+  filter: blur(150px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-10%, -30%);
+  transition: 1s;
+}
+
 .carousel .prodShowcaseList {
   position: absolute;
   top: 0;
@@ -92,7 +107,8 @@ header nav a {
 }
 
 .carousel .prodShowcaseList .product .intro .title {
-  font-size: 1.5em;
+  font-size: 1.2em;
+  font-weight: 200;
   line-height: 0.8em;
 }
 .carousel .prodShowcaseList .product .intro .name {
@@ -101,7 +117,11 @@ header nav a {
 }
 .carousel .prodShowcaseList .product .intro .desc {
   font-size: small;
+  font-weight: 300;
+}
+.carousel .prodShowcaseList .product .intro .cost {
   font-weight: 500;
+  margin-top: 1.3em;
 }
 .carousel .prodShowcaseList .product .intro .learnMore {
   background-color: transparent;
@@ -111,6 +131,7 @@ header nav a {
   font-weight: bold;
   margin-top: 1.2em;
   padding: 5px 0;
+  cursor: pointer;
 }
 
 /* Carousel Animations */
@@ -153,10 +174,16 @@ header nav a {
 }
 /* end Animation delay for content */
 
+/* Product 2 is the active one */
 .carousel .prodShowcaseList .product:nth-child(2) .intro {
   opacity: 1;
   pointer-events: auto;
   transition: opacity 0.5s;
+}
+/* Rest of the item will be hidden from view */
+.carousel .prodShowcaseList .product:nth-child(n + 4) {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Setting the visuals for the products */
@@ -181,11 +208,6 @@ header nav a {
   pointer-events: none;
 }
 
-.carousel .prodShowcaseList .product:nth-child(n + 4) {
-  opacity: 0;
-  pointer-events: none;
-}
-
 /* Carousel Arrow Icons */
 .carouselControl {
   position: absolute;
@@ -197,10 +219,11 @@ header nav a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 20;
 }
 
 .carouselControl #next,
-.carouselControl #prev {
+.carouselControl #previous {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -214,7 +237,7 @@ header nav a {
 }
 
 /* Next Arrow Click Effect */
-/* For Product 2 */
+/* To animate to Product 2 */
 .carousel.next .prodShowcaseList .product:nth-child(1) {
   animation: posItem2Anim 0.5s ease-in-out 1 forwards;
 }
@@ -228,7 +251,7 @@ header nav a {
   }
 }
 
-/* For Product 3 */
+/* To animate to Product 3 */
 .carousel.next .prodShowcaseList .product:nth-child(2) {
   animation: posItem3Anim 0.7s ease-in-out 1 forwards;
 }
@@ -244,7 +267,7 @@ header nav a {
 
 /* To animate to Product 1 */
 .carousel.next .prodShowcaseList .product:nth-child(3) {
-  animation: posItem1Anim 0.7s ease-in-out 1 forwards;
+  animation: posItem1Anim 0.9s ease-in-out 1 forwards;
 }
 @keyframes posItem1Anim {
   from {
@@ -254,4 +277,14 @@ header nav a {
     z-index: var(--prod1-zIndex);
     opacity: var(--prod1-opacity);
   }
+}
+
+/* Prev Arrow Click Effect */
+/* To animate to Product 1 */
+.carousel.prev .prodShowcaseList .product:nth-child(2) {
+  animation: posItem1Anim 0.5s ease-in-out 1 forwards;
+}
+/* To animate to Product 2 */
+.carousel.prev .prodShowcaseList .product:nth-child(3) {
+  animation: posItem2Anim 0.5s ease-in-out 1 forwards;
 }
