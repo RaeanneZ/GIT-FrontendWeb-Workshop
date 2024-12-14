@@ -255,3 +255,13 @@ header nav a {
     opacity: var(--prod1-opacity);
   }
 }
+
+.footer{
+  margin-top: 100px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+}
+.footer h3{
+  text-align: center;
+}
